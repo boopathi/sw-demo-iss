@@ -1,8 +1,11 @@
 module.exports = {
-	entry: './index.js',
+	entry: {
+		app: './index.js',
+		sw: './sw.js'
+	},
 	output: {
 		path: 'build',
-		filename: 'bundle.js',
+		filename: '[name].bundle.js',
 		libraryTarget: 'this'
 	},
 	externals: {

@@ -5,7 +5,7 @@ var Sync = require('./src/Sync'),
 	map, issmarker;
 
 var UpdateLocation = function() {
-	var p = new Promise(function(resolve, reject) {
+	new Promise(function(resolve, reject) {
 		Sync(function *(resume) {
 			var respStr = yield get('/api/location', resume);
 			var resp = JSON.parse(respStr);
@@ -14,9 +14,10 @@ var UpdateLocation = function() {
 			issmarker.setPosition(center);
 			resolve();
 		});
-	});
-	p.then(function() {
-		setTimeout(UpdateLocation, updateTimeInterval);
+	}).then(function() {
+		window.latestTimer = setTimeout(UpdateLocation, updateTimeInterval);
+	}).catch(function(err) {
+		console.log(err);
 	});
 };
 
@@ -30,5 +31,15 @@ Sync(function *(resume) {
 		icon: 'images/iss.png',
 		map: map
 	});
-	setTimeout(UpdateLocation, updateTimeInterval);
+	window.latestTimer = setTimeout(UpdateLocation, updateTimeInterval);
 });
+
+if('serviceWorker' in navigator) {
+	navigator.serviceWorker.register('sw.bundle.js', {
+		scope: 'isstracker'
+	}).then(function(reg) {
+		console.log("Service worker registered")
+	}).catch(function(err) {
+		console.log(err);
+	});
+}
