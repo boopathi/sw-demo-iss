@@ -1,0 +1,36 @@
+{
+  "name": "sw-demo-isstracker",
+  "version": "1.0.0",
+  "description": "Service Worker Demp ISS Tracker",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/.bin/webpack && node --harmony server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/boopathi/service-worker-demo-isstracker"
+  },
+  "keywords": [
+    "isstracker",
+    "service",
+    "worker",
+    "demo"
+  ],
+  "author": "boopathi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/boopathi/service-worker-demo-isstracker/issues"
+  },
+  "homepage": "https://github.com/boopathi/service-worker-demo-isstracker",
+  "dependencies": {
+    "co-request": "^0.2.0",
+    "co-views": "^0.2.0",
+    "ejs": "^2.0.8",
+    "koa": "^0.14.0",
+    "koa-logger": "^1.2.2",
+    "koa-route": "^2.4.0",
+    "koa-static": "^1.4.8",
+    "webpack": "git://github.com/webpack/webpack.git#harmony"
+  }
+}
