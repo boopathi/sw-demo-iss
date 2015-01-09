@@ -24,7 +24,7 @@ app.listen(port, function() {
 
 function *home() {
 	this.body = yield render('index', {
-		API_KEY: "AIzaSyAsNQznL2CUA2wXZ-gy-Non9_6v5-V5SIU"
+		API_KEY: process.env.SW_DEMO_ISS_GMAPS_API
 	})
 }
 
