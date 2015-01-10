@@ -3,27 +3,17 @@ var koa = require('koa'),
 	logger = require('koa-logger'),
 	route = require('koa-route'),
 	staticDir = require('koa-static'),
-	views = require('co-views'),
 	request = require('co-request'),
 	port = process.env.PORT || 3003;
 
-var render = views('views', {
-	map: { html: 'ejs' }
-});
-
 //logger
 app.use(logger());
-app.use(route.get('/', home));
 app.use(route.get('/api/:name', api))
 app.use(staticDir('./'))
 
 app.listen(port, function() {
 	console.log("Koa server listening on port %s", port);
 });
-
-function *home() {
-	this.body = yield render('index', {});
-}
 
 function *api(name) {
 	switch(name) {

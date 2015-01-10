@@ -72,7 +72,7 @@
 			map = mapInit(resp.iss_position.latitude, resp.iss_position.longitude);
 			issmarker = new google.maps.Marker({
 				position: map.getCenter(),
-				icon: 'images/iss.png',
+				icon: 'public/images/iss.png',
 				map: map
 			});
 			setTimeout(updateLocation, updateTimeInterval);
