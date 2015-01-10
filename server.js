@@ -22,12 +22,7 @@ app.listen(port, function() {
 });
 
 function *home() {
-	this.body = yield render('index', {
-		scripts: [
-		    "//maps.googleapis.com/maps/api/js?key=" + process.env.SW_DEMO_ISS_GMAPS_API,
-		    "app.bundle.js"
-		]
-	});
+	this.body = yield render('index', {});
 }
 
 function *api(name) {
