@@ -15,8 +15,7 @@ var render = views('views', {
 app.use(logger());
 app.use(route.get('/', home));
 app.use(route.get('/api/:name', api))
-app.use(staticDir('build'))
-app.use(staticDir('public'))
+app.use(staticDir('./'))
 
 app.listen(port, function() {
 	console.log("Koa server listening on port %s", port);
@@ -24,8 +23,11 @@ app.listen(port, function() {
 
 function *home() {
 	this.body = yield render('index', {
-		API_KEY: process.env.SW_DEMO_ISS_GMAPS_API
-	})
+		scripts: [
+		    "//maps.googleapis.com/maps/api/js?key=" + process.env.SW_DEMO_ISS_GMAPS_API,
+		    "app.bundle.js"
+		]
+	});
 }
 
 function *api(name) {

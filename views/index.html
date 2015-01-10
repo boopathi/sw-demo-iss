@@ -12,9 +12,9 @@
         padding: 0px
     }
     </style>
-    <script src="//maps.googleapis.com/maps/api/js?key=<%= API_KEY %>"></script>
-    <script src="app.bundle.js"></script>
-    <script src="sw.bundle.js"></script>
+    <% for(i=0;i<scripts.length;i++) { %>
+    <script src="<%= scripts[i] %>"></script>
+    <% } %>
 </head>
 
 <body>

@@ -33,5 +33,8 @@
     "koa-route": "^2.4.0",
     "koa-static": "^1.4.8",
     "webpack": "git://github.com/webpack/webpack.git#harmony"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5"
   }
 }

@@ -4,7 +4,7 @@ module.exports = {
 		sw: './sw.js'
 	},
 	output: {
-		path: 'build',
+		path: './',
 		filename: '[name].bundle.js',
 		libraryTarget: 'this'
 	},
