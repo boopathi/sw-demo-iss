@@ -49,13 +49,13 @@
 		get = __webpack_require__(1),
 		mapInit = __webpack_require__(2),
 		updateTimeInterval = 1000,
-		api = "http://api.open-notify.org/iss-now.json",
+		api = "https://api.wheretheiss.at/v1/satellites/25544",
 		map, issmarker;
 
 	var updateLocation = function() {
-		return get(api, 'jsonp')
+		return get(api, 'json')
 			.then(function(resp){
-				var center = new google.maps.LatLng(resp.iss_position.latitude, resp.iss_position.longitude);
+				var center = new google.maps.LatLng(resp.latitude, resp.longitude);
 				issmarker.setPosition(center);
 				map.panTo(center);
 				setTimeout(updateLocation, updateTimeInterval);
@@ -67,9 +67,9 @@
 
 	document.addEventListener('DOMContentLoaded', function() {
 		co(function *() {
-			return yield get(api, 'jsonp');
+			return yield get(api, 'json');
 		}).then(function(resp) {
-			map = mapInit(resp.iss_position.latitude, resp.iss_position.longitude);
+			map = mapInit(resp.latitude, resp.longitude);
 			issmarker = new google.maps.Marker({
 				position: map.getCenter(),
 				icon: 'public/images/iss.png',
