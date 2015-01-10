@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/boopathi/service-worker-demo-isstracker",
   "dependencies": {
+    "co": "^4.1.0",
     "co-request": "^0.2.0",
     "co-views": "^0.2.0",
     "ejs": "^2.0.8",
