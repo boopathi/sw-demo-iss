@@ -2,6 +2,14 @@
 
 Tracks the current location of ISS using open-notify APIs and Google Maps APIs.
 
+#### Pending:
+
+[ ] Haven't figured a way to cache Google Maps API results using Service Workers. 
+
+#### Demo
+
+Live at [https://boopathi.in/sw-demo-iss](https://boopathi.in/sw-demo-iss)
+
 ## Requirements
 
 + node > 0.11.0
@@ -12,15 +20,11 @@ Tracks the current location of ISS using open-notify APIs and Google Maps APIs.
 
 `npm install`
 
-#### Get a Google API Key
+#### Start the sample server
 
-+ [Google Developer's console](https://console.developers.google.com/)
-+ Create a new Project
-+ Enable Google Maps JavaScript API v3
-+ Generate a Public API key
-+ Copy this key
-
-#### Start the server
-
-+ `export SW_DEMO_ISS_GMAPS_API="API-KEY-FROM-PREVIOUS-STEP"`
 + `npm start`
+
+## APIs used
+
++ [http://wheretheiss.at/w/developer](http://wheretheiss.at/w/developer)
++ [https://developers.google.com/maps/documentation/javascript/reference](https://developers.google.com/maps/documentation/javascript/reference)
