@@ -2,7 +2,7 @@ var co = require('co'),
 	get = require('./src/GetRequest'),
 	mapInit = require('./src/GoogleMaps.js'),
 	updateTimeInterval = 1000,
-	api = "//api.open-notify.org/iss-now.json",
+	api = "http://api.open-notify.org/iss-now.json",
 	map, issmarker;
 
 var updateLocation = function() {
