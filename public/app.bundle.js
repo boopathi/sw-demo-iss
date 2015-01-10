@@ -49,7 +49,7 @@
 		get = __webpack_require__(1),
 		mapInit = __webpack_require__(2),
 		updateTimeInterval = 1000,
-		api = "http://api.open-notify.org/iss-now.json",
+		api = "//api.open-notify.org/iss-now.json",
 		map, issmarker;
 
 	var updateLocation = function() {
