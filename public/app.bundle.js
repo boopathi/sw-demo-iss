@@ -47,14 +47,16 @@
 
 	var co = __webpack_require__(3),
 		get = __webpack_require__(1),
-		mapInit = __webpack_require__(2),
+		maps = __webpack_require__(2),
 		updateTimeInterval = 1000,
 		api = "https://api.wheretheiss.at/v1/satellites/25544",
-		map, issmarker;
+		map, issmarker, issinfo;
 
 	var updateLocation = function() {
 		return get(api, 'json')
 			.then(function(resp){
+				var newContent = maps.FormatISSInfo(resp);
+				if(issinfo.getContent() !== newContent) issinfo.setContent(newContent);
 				var center = new google.maps.LatLng(resp.latitude, resp.longitude);
 				issmarker.setPosition(center);
 				map.panTo(center);
@@ -69,12 +71,13 @@
 		co(function *() {
 			return yield get(api, 'json');
 		}).then(function(resp) {
-			map = mapInit(resp.latitude, resp.longitude);
-			issmarker = new google.maps.Marker({
-				position: map.getCenter(),
-				icon: 'public/images/iss.png',
-				map: map
-			});
+			map = maps.Init(resp.latitude, resp.longitude);
+			issmarker = maps.ISSMarker(map, resp);
+			issinfo = maps.InfoWindow(map, resp);
+			issinfo.open(map, issmarker);
+			google.maps.event.addListener(issmarker, 'click', function() {
+				issinfo.open(map, issmarker);
+			})
 			setTimeout(updateLocation, updateTimeInterval);
 		}).catch(function(err) {
 			console.log(err.stack);
@@ -126,14 +129,43 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = function(lat, lng) {
-		var mapOptions = {
-	        zoom: 5,
-	        center: new google.maps.LatLng(lat, lng),
-	        disableDefaultUI: true
-	    };
-		return new google.maps.Map(document.getElementById('map-container'), mapOptions);
-	}
+	var GoogleMaps = {
+		Init: function(lat, lng) {
+			var mapOptions = {
+				zoom: 5,
+				center: new google.maps.LatLng(lat, lng),
+				disableDefaultUI: true,
+				zoomControl: true,
+				zoomControlOptions: {
+					style: google.maps.ZoomControlStyle.LARGE,
+					position: google.maps.ControlPosition.LEFT_CENTER
+				}
+			};
+			return new google.maps.Map(document.getElementById('map-container'), mapOptions);
+		},
+		InfoWindow: function(map, iss) { 
+			return new google.maps.InfoWindow({
+				content: GoogleMaps.FormatISSInfo(iss),
+				maxWidth: 100
+			});
+		},
+		ISSMarker: function(map, iss) {
+			return new google.maps.Marker({
+				position: map.getCenter(),
+				icon: 'public/images/iss.png',
+				map: map
+			})
+		},
+		FormatISSInfo: function(iss) {
+			var html = "<div>"
+			html += "<b>Vel</b>: " + Math.round(iss.velocity) + " KM/H<br/>";
+			html += "<b>Alt</b>: " + Math.round(iss.altitude) + " KM";
+			html += "</div>";
+			return html;
+		}
+	};
+
+	module.exports = GoogleMaps;
 
 /***/ },
 /* 3 */
