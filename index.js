@@ -3,39 +3,57 @@ var co = require('co'),
 	maps = require('./src/GoogleMaps'),
 	updateTimeInterval = 1000,
 	api = "https://api.wheretheiss.at/v1/satellites/25544",
-	map, issmarker, issinfo;
-
-var updateLocation = function() {
-	return get(api, 'json')
-		.then(function(resp){
-			var newContent = maps.FormatISSInfo(resp);
-			if(issinfo.getContent() !== newContent) issinfo.setContent(newContent);
-			var center = new google.maps.LatLng(resp.latitude, resp.longitude);
-			issmarker.setPosition(center);
-			map.panTo(center);
-			setTimeout(updateLocation, updateTimeInterval);
-		})
-		.catch(function(err) {
-			console.log(err.stack);
-		});
-};
+	map, issmarker, issinfo, timer;
 
 document.addEventListener('DOMContentLoaded', function() {
-	co(function *() {
-		return yield get(api, 'json');
-	}).then(function(resp) {
-		map = maps.Init(resp.latitude, resp.longitude);
-		issmarker = maps.ISSMarker(map, resp);
-		issinfo = maps.InfoWindow(map, resp);
-		issinfo.open(map, issmarker);
-		google.maps.event.addListener(issmarker, 'click', function() {
-			issinfo.open(map, issmarker);
+	co(getLocationJSON)
+		.then(initLocation)
+		.then(addEvents)
+		.then(startPolling)
+		.catch(function(err) {
+			console.log(err.stack);
+			clearInterval(timer);
 		})
-		setTimeout(updateLocation, updateTimeInterval);
-	}).catch(function(err) {
-		console.log(err.stack);
-	});
 });
+
+function *getLocationJSON() {
+	return yield get(api, 'json');
+}
+
+function initLocation(iss) {
+	map = maps.Init(iss.latitude, iss.longitude);
+	issmarker = maps.ISSMarker(map, iss);
+	issinfo = maps.InfoWindow(map, iss);
+	issinfo.open(map, issmarker);
+	return iss;
+}
+
+function addEvents(iss) {
+	google.maps.event.addListener(issmarker, 'click', function() {
+		issinfo.open(map, issmarker);
+	});
+	return iss;
+}
+
+function startPolling(iss) {
+	timer = setInterval(function() {
+		co(getLocationJSON)
+			.then(updateLocation)
+			.catch(function(err) {
+				clearInterval(timer);
+				console.log(err.stack);
+			});
+	}, updateTimeInterval);
+	return iss;
+}
+
+function updateLocation(iss) {
+	var newContent = maps.FormatISSInfo(iss);
+	if(issinfo.getContent !== newContent) issinfo.setContent(newContent);
+	var center = new google.maps.LatLng(iss.latitude, iss.longitude);
+	issmarker.setPosition(center);
+	map.panTo(center);
+};
 
 if('serviceWorker' in navigator) {
 	navigator.serviceWorker.register('sw.js', {
