@@ -1,7 +1,7 @@
 module.exports = {
 	entry: {
 		app: './index.js',
-		sw: './sw.js'
+		//sw: './sw.js'
 	},
 	output: {
 		path: './public',
