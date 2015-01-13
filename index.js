@@ -38,11 +38,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 if('serviceWorker' in navigator) {
-	navigator.serviceWorker.register('sw.bundle.js', {
-		scope: 'isstracker'
+	navigator.serviceWorker.register('public/sw.bundle.js', {
+		scope: 'public/'
 	}).then(function(reg) {
-		console.log("Service worker registered")
-	}).catch(function(err) {
-		console.log(err);
-	});
+			console.log("Service worker registered")
+		}).catch(function(err) {
+			console.log(err);
+		});
 }
