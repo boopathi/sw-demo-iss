@@ -3,12 +3,11 @@ importScripts("public/serviceworker-cache-polyfill.js");
 var CACHE_NAME = "isstracker-cache-v1";
 
 var urlsToCache = [
-	"index.html",
-	"public/app.bundle.js",
-	"public/sw.bundle.js",
-	"public/serviceworker-cache-polyfill.js",
-	"public/images/iss.png",
-	new Request("//maps.googleapis.com/maps/api/js?key=AIzaSyCJrlUak810VZv5FxQCCgoz-z8DBBhiLOM", { mode: 'no-cors' }),
+	// "index.html",
+	// "public/app.bundle.js",
+	// "public/sw.bundle.js",
+	// "public/serviceworker-cache-polyfill.js",
+	// "public/images/iss.png",
 	new Request("//api.wheretheiss.at/v1/satellites/25544", { mode: 'no-cors' }),
 	new Request("//maps.gstatic.com/maps-api-v3/api/js/19/5/common.js", { mode: 'no-cors' }),
 	new Request("//maps.gstatic.com/maps-api-v3/api/js/19/5/map.js", { mode: 'no-cors' }),
@@ -25,6 +24,7 @@ var urlsToCache = [
 
 self.addEventListener('install', function(event) {
 	console.log("installing...");
+	console.log(event);
 	event.waitUntil(
 		caches.open(CACHE_NAME)
 			.then(function(cache) {
@@ -34,31 +34,32 @@ self.addEventListener('install', function(event) {
 	);
 });
 
-self.addEventListener('fetch', function(event) {
-	console.log('fetch happening...');
-	event.respondWith(
-		caches.match(event.request)
-			.then(function(response) {
-				if(response) return response;
-				var fetchRequest = event.request.clone();
-				return fetch(fetchRequest).then(function(response) {
-					if(!response || response.status!==200 || response.type !== 'basic') {
-						return response;
-					}
-					var responseToCache = response.clone();
-					caches.open(CACHE_NAME)
-						.then(function(cache) {
-							console.log('new response saved to cache.');
-							var cacheRequest = event.request.clone();
-							cache.put(cacheRequest, responseToCache);
-						});
-					return response;
-				});
-			})
-	);
-});
-
 self.addEventListener('activate', function(event) {
-	console.log('activate event fired');
+	console.log('activation');
+	console.log(event);
 	var cacheWhiteList = [];
 });
+
+// self.addEventListener('fetch', function(event) {
+// 	console.log('fetch happening...');
+// 	event.respondWith(
+// 		caches.match(event.request)
+// 			.then(function(response) {
+// 				if(response) return response;
+// 				var fetchRequest = event.request.clone();
+// 				return fetch(fetchRequest).then(function(response) {
+// 					if(!response || response.status!==200 || response.type !== 'basic') {
+// 						return response;
+// 					}
+// 					var responseToCache = response.clone();
+// 					caches.open(CACHE_NAME)
+// 						.then(function(cache) {
+// 							console.log('new response saved to cache.');
+// 							var cacheRequest = event.request.clone();
+// 							cache.put(cacheRequest, responseToCache);
+// 						});
+// 					return response;
+// 				});
+// 			})
+// 	);
+// });
