@@ -24,6 +24,9 @@
   },
   "homepage": "https://github.com/boopathi/service-worker-demo-isstracker",
   "dependencies": {
+    "babel-core": "^4.0.2",
+    "babel-loader": "^4.0.0",
+    "babel-runtime": "^4.0.2",
     "co": "^4.1.0",
     "co-request": "^0.2.0",
     "co-views": "^0.2.0",
