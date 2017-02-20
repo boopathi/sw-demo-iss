@@ -24,17 +24,17 @@
   },
   "homepage": "https://github.com/boopathi/service-worker-demo-isstracker",
   "dependencies": {
-    "babel-core": "^4.0.2",
-    "babel-loader": "^4.0.0",
-    "babel-runtime": "^4.0.2",
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-runtime": "^6.23.0",
     "co": "^4.1.0",
-    "co-request": "^0.2.0",
-    "co-views": "^0.2.0",
+    "co-request": "^1.0.0",
+    "co-views": "^2.1.0",
     "ejs": "^2.0.8",
-    "koa": "^0.14.0",
+    "koa": "^1.2.5",
     "koa-logger": "^1.2.2",
     "koa-route": "^2.4.0",
-    "koa-static": "^1.4.8",
+    "koa-static": "^2.1.0",
     "webpack": "git://github.com/webpack/webpack.git#harmony"
   }
 }
